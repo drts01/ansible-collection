@@ -1,0 +1,4 @@
+goss_version: latest
+goss_dest: /usr/local/bin/goss
+test_files: []
+test_dest: /usr/share/goss"

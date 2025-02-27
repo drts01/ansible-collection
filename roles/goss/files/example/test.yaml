@@ -1,0 +1,33 @@
+command:
+  goss:
+    exec: goss --version
+    exit-status: 0
+
+dns:
+  localhost:
+    resolvable: true
+
+file:
+  /etc/passwd:
+    exists: true
+    owner: root
+    group: root
+
+group:
+  nogroup:
+    exists: true
+    gid: 65534
+
+process:
+  goss:
+    running: true
+
+user:
+  nobody:
+    exists: true
+    uid: 65534
+    gid: 65534
+    groups:
+      - nogroup
+    home: /nonexistent
+    shell: /usr/sbin/nologin

@@ -1,0 +1,72 @@
+- name: Get Goss latest release info
+  ansible.builtin.uri:
+    url: >  # jinja[spacing]
+      https://api.github.com/repos/aelsabbahy/goss/releases/
+      {{- 'latest' if (goss_version is not defined or goss_version == 'latest')
+      else ('tags/' + goss_version) }}
+    headers:
+      Accept: application/vnd.github+json
+    return_content: yes
+    status_code: 200
+    body_format: json
+  register: goss_github_release
+- name: Print latest Goss version
+  ansible.builtin.debug:
+    msg: "{{ goss_github_release.json.tag_name }}"
+- name: Get Goss SHA
+  ansible.builtin.uri:
+    url: >
+      https://github.com/aelsabbahy/goss/releases/download/
+      {{- goss_github_release.json.tag_name }}/goss-linux-{{ arch[ansible_architecture] -}}.sha256
+    return_content: yes
+  register: goss_sha256sum
+- name: Print latest Goss sha
+  ansible.builtin.debug:
+    msg: "{{ goss_sha256sum.content.split()[0] }}"
+- name: Download Goss binary from GitHub
+  ansible.builtin.get_url:
+    url: >
+      https://github.com/aelsabbahy/goss/releases/download/
+      {{- goss_github_release.json.tag_name }}/goss-linux-{{ arch[ansible_architecture] }}
+    dest: "{{ goss_dest }}"
+    checksum: sha256:{{ goss_sha256sum.content.split()[0] }}
+    mode: "0755"
+
+- name: Add Goss tests files
+  block:
+    - name: Ensure Goss test path exists
+      ansible.builtin.file:
+        path: "{{ test_dest }}"
+        mode: "0755"
+        state: directory
+    - name: Copy Goss test files
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "{{ test_dest }}"
+        mode: "0644"
+      with_items: "{{ test_files }}"
+  when: test_files and test_dest
+
+- name: Add Goss example test
+  block:
+    - name: Ensure Goss test path exists
+      ansible.builtin.file:
+        path: "{{ test_dest }}/{{ example_files }}"
+        mode: "0755"
+        state: directory
+    - name: Create Goss test file
+      ansible.builtin.copy:
+        content: |
+          gossfile:
+            {{ test_dest }}/{{ example_files }}/*.yaml: {}
+        dest: "{{ test_dest }}/goss.yaml"
+        mode: "0644"
+    - name: Copy Goss example tests
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "{{ test_dest }}"
+        mode: "0644"
+      with_items: "{{ example_files }}"
+  when: test_dest and not test_files
+  vars:
+    example_files: example

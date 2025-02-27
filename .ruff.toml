@@ -1,0 +1,35 @@
+# https://docs.astral.sh/ruff/settings/
+line-length = 120
+show-fixes = true
+
+[format]
+docstring-code-format = true
+line-ending = "lf"
+
+[lint] # https://docs.astral.sh/ruff/rules/
+select = [
+  "ANN", "ASYNC", "S", "BLE", "FBT", "B", "A", "C4", "DTZ", "T10", "EM", "EXE", "FA", "INT", "ISC",
+  "ICN", "LOG", "G", "INP", "PIE", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SIM", "SLOT", "TID","TC",
+  "ARG", "PTH", "I", "C90", "N", "PERF", "E", "W", "D", "F", "PGH", "PL", "UP", "FURB", "RUF", "TRY",
+  # "DOC"
+]
+ignore = [
+]
+
+[lint.flake8-type-checking]
+strict = true
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.per-file-ignores]
+"**/test_*.py" = [
+  "ANN201", # Missing return type annotation for public function `test_additonal_packages`
+  "ARG001", # Unused function argument: `item`
+  "INP001", # File is part of implicit namespace package. Add an `__init__.py`.
+  "S101",  # Use of `assert` detected
+]
+"molecule/**/conftest.py" = [
+  "ARG001", # Unused function argument: `item`
+  "INP001", # File is part of implicit namespace package. Add an `__init__.py`.
+]

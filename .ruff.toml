@@ -9,7 +9,7 @@ line-ending = "lf"
 [lint] # https://docs.astral.sh/ruff/rules/
 select = [
   "ANN", "ASYNC", "S", "BLE", "FBT", "B", "A", "C4", "DTZ", "T10", "EM", "EXE", "FA", "INT", "ISC",
-  "ICN", "LOG", "G", "INP", "PIE", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SIM", "SLOT", "TID","TC",
+  "ICN", "LOG", "G", "INP", "PIE", "PYI", "PT", "RSE", "RET", "SLF", "SIM", "SLOT", "TID","TC",
   "ARG", "PTH", "I", "C90", "N", "PERF", "E", "W", "D", "F", "PGH", "PL", "UP", "FURB", "RUF", "TRY",
   # "DOC"
 ]

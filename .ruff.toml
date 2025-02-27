@@ -19,6 +19,9 @@ ignore = [
 [lint.flake8-type-checking]
 strict = true
 
+[lint.isort]
+lines-between-types = 1
+
 [lint.pydocstyle]
 convention = "google"
 

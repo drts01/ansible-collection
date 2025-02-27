@@ -1,8 +1,4 @@
-- name: Converge
-  hosts: all
-  roles:
-    - role: digitalroots.infra.base
-  # tasks:
-  #   - name: Include role
-  #     ansible.builtin.include_role:
-  #       name: digitalroots.infra.base
+- name: Include Goss playbook
+  ansible.builtin.import_playbook: ../goss/converge.yml
+- name: Include Base playbook
+  ansible.builtin.import_playbook: ../base/converge.yml

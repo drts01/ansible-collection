@@ -1,0 +1,8 @@
+- name: Converge
+  hosts: all
+  tasks:
+    - name: Include role rally.ops.goss
+      ansible.builtin.include_role:
+        name: digitalroots.infra.goss
+        apply:
+          become: yes

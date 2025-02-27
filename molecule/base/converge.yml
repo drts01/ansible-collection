@@ -1,0 +1,7 @@
+- name: Converge
+  hosts: all
+  roles:
+    - name: digitalroots.infra.base
+      vars:
+        additional_packages: [nmap]
+      become: yes

@@ -23,10 +23,10 @@ tags: [digitalr00ts, xsc27, fedora]
 # range specifiers can be set and are separated by ','
 dependencies: {}
 
-repository: http://example.com/repository
-documentation: http://docs.example.com
-homepage: http://example.com
-issues: http://example.com/issue/tracker
+repository: https://github.com/drts01/ansible-collection
+documentation: ""
+homepage: https://github.com/drts01/ansible-collection.git
+issues: https://github.com/drts01/ansible-collection.git/issues
 
 build_ignore:
   - .ansible

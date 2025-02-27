@@ -22,4 +22,3 @@ parseable: true
 # quiet: true
 strict: true
 verbosity: 1
-

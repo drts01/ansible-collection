@@ -31,7 +31,7 @@ def test_goss(host: testinfra.host, executable: str):  # pylint: disable=redefin
 def test_run_example(
     host: testinfra.host,
     executable: str,  # pylint: disable=redefined-outer-name
-) :
+):
     """Run Goss example test."""
     cmd = host.run(f"{executable} --gossfile /usr/share/goss/goss.yaml validate --format tap")
 

@@ -1,104 +1,102 @@
-build-system]
-requires = ["setuptools>=61.0.0"]
+[build-system]
 build-backend = "setuptools.build_meta"
 
+requires = [ "setuptools>=61" ]
+
 [project]
-name = "xsc27.ansible_collection"
+name = "xsc27-ansible-collection"
+version = "0.0.0"
 description = "Not a really package"
 readme = "README.md"
-version = "0.0.0"
-authors = [{name = "Carlos Meza", email = "xsc27@digitalr00ts.com"}]
-license = {text = "Apache 2.0"}
+keywords = [
+  "digitalroots",
+  "xsc27",
+]
+license = { text = "Apache 2.0" }
+authors = [ { name = "Carlos Meza", email = "xsc27@digitalr00ts.com" } ]
 requires-python = ">=3.7"
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Environment :: Console",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Information Technology",
-    "Intended Audience :: System Administrators",
-"Operating System :: POSIX",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-      "Topic :: System :: Systems Administration",
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: System Administrators",
+  "Operating System :: POSIX",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Software Development :: Quality Assurance",
   "Topic :: Software Development :: Testing",
-  "Topic :: Utilities"
-]
-keywords = [
-    "digitalroots",
-	"xsc27",
+  "Topic :: System :: Systems Administration",
+  "Topic :: Utilities",
 ]
 dependencies = [
-    "ansible-lint ~= 25.0",
-    "molecule ~= 25.0",
-    "molecule-plugins[docker,podman] ~= 23.0",
-    "pytest-testinfra ~= 10.0",
+  "ansible-lint~=25.0",
+  "molecule~=25.0",
+  "molecule-plugins[docker,podman]~=23.0",
+  "pytest-testinfra~=10.0",
 ]
 
-[project.optional-dependencies]
-lint = [
-    "ansible-lint ~= 6.0",
-    "bandit[toml]",
-    "dlint",
-    "flake8-bugbear",
-    "flake8-comprehensions",
-    "flake8-debugger",
-    "flake8-docstrings",
-    "flake8-eradicate",
-    "flake8-pytest-style",
-    "flake8-rst-docstrings",
-    "pep8-naming",
-    "pylint >= 2.15.0",  # Support for py3.11+
+optional-dependencies.lint = [
+  "ansible-lint~=6.0",
+  "bandit[toml]",
+  "dlint",
+  "flake8-bugbear",
+  "flake8-comprehensions",
+  "flake8-debugger",
+  "flake8-docstrings",
+  "flake8-eradicate",
+  "flake8-pytest-style",
+  "flake8-rst-docstrings",
+  "pep8-naming",
+  "pylint>=2.15",          # Support for py3.11+
 ]
-
-[project.urls]
-"Source" = "https://github.com/xsc27/ansible-collection"
-
-[project.scripts]
+urls."Source" = "https://github.com/xsc27/ansible-collection"
 
 [tool.setuptools]
-py-modules = []
-
-[tool.bandit.assert_used]
-skips = ["**/tests/test_*.py"]
+py-modules = [  ]
 
 [tool.black]
 line-length = 98
-
-[tool.flake8]
-# Setting are in tox.ini because
-# flake8 does not support pyproject.toml
 
 [tool.isort]
 profile = "black"
 line_length = 98
 
+[tool.flake8]
+# Setting are in tox.ini because
+# flake8 does not support pyproject.toml
+
 [tool.pylint.config]
 max-line-length = 98
 persistent = "no"
 enable = [
-    "F",  # Fatal
-    "E",  # Error
-    "W",  # Warning
-    "C",  # Convention
-    "I",  # Informational
+  "F", # Fatal
+  "E", # Error
+  "W", # Warning
+  "C", # Convention
+  "I", # Informational
 ]
 disable = [
-    "R",  # Refactor
-    "fixme",
-    "input-builtin",
-    "locally-disabled",
-    "line-too-long",  # redundant from flake8
-    "missing-class-docstring",  # redundant from flake8-docstrings
-    "missing-function-docstring",  # redundant from flake8-docstrings
-    "missing-module-docstring",  # redundant from flake8-docstrings
-    "suppressed-message",
-    "undefined-variable",  # redundant from flake8
-    "ungrouped-imports",  # redundant from isort
-    "unused-variable",  # redundant from flake8
-    "method-cache-max-size-none",  # redundant from bugbear
+  "R",                          # Refactor
+  "fixme",
+  "input-builtin",
+  "locally-disabled",
+  "line-too-long",              # redundant from flake8
+  "missing-class-docstring",    # redundant from flake8-docstrings
+  "missing-function-docstring", # redundant from flake8-docstrings
+  "missing-module-docstring",   # redundant from flake8-docstrings
+  "suppressed-message",
+  "undefined-variable",         # redundant from flake8
+  "ungrouped-imports",          # redundant from isort
+  "unused-variable",            # redundant from flake8
+  "method-cache-max-size-none", # redundant from bugbear
 ]
 
+[tool.bandit.assert_used]
+skips = [ "**/tests/test_*.py" ]

@@ -1,6 +1,7 @@
 dependency:
   name: galaxy
   options:
+    requirements-file: requirements.yml
     upgrade: true
 driver:
   name: podman
@@ -18,11 +19,21 @@ platforms:
       - /tmp
     capabilities:
       - SYS_ADMIN
+    # cgroupns_mode: host
     privileged: false
     pre_build_image: false
     groups: [molecule]
 provisioner:
   name: ansible
-  log: false
+  log: true
+  # inventory:
+  #   group_vars:
+  #     molecule:
+  #       ansible_user: ubuntu
   env:
     ANSIBLE_CONFIG: ansible.cfg
+verifier:
+  name: testinfra
+  options:
+    junitxml: ${JUNIT_OUTPUT_DIR:-.ansible.log}/report.xml
+lint: ansible-lint .

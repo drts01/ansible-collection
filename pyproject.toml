@@ -12,21 +12,30 @@ license = {text = "Apache 2.0"}
 requires-python = ">=3.7"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+"Operating System :: POSIX",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+      "Topic :: System :: Systems Administration",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: Software Development :: Testing",
+  "Topic :: Utilities"
 ]
 keywords = [
     "digitalroots",
 	"xsc27",
 ]
 dependencies = [
-    "molecule[docker,podman] ~= 4.0",
-    "molecule_docker != 2.1.0",  # https://github.com/ansible-community/molecule-docker/issues/184
-    "pytest-testinfra ~= 6.0",
+    "ansible-lint ~= 25.0",
+    "molecule ~= 25.0",
+    "molecule-plugins[docker,podman] ~= 23.0",
+    "pytest-testinfra ~= 10.0",
 ]
 
 [project.optional-dependencies]

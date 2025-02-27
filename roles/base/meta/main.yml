@@ -1,0 +1,9 @@
+galaxy_info:
+  author: Carlos Meza
+  description: Setup base configuration
+  company: digitalroots
+  license: Apache-2.0
+  issue_tracker_url: https://github.com/drts01/ansible-collection/issues
+  min_ansible_version: "2.1"
+  platforms:
+    - name: Fedora

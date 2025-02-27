@@ -1,0 +1,12 @@
+install_apt_packages:
+  - git
+  - gpg
+  - jq
+  - neovim
+
+remove_packages:
+  - nano
+
+disabled_services: []
+
+additional_packages: []

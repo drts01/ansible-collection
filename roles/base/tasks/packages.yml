@@ -1,0 +1,13 @@
+# - name: Purge packages
+#   ansible.builtin.:
+#     name: "{{ remove_apt_packages }}"
+#   when: remove_packages
+
+# - name: Update packages
+#   notify: "digitalroots.infra.base : Clean Repo Cache"
+
+# - name: Install packages
+#   ansible.builtin.:
+#     name: "{{ install_apt_packages | union(additional_packages) }}"
+#     state: present
+#   when: install_packages

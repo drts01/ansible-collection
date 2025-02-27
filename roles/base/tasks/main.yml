@@ -1,0 +1,6 @@
+- ansible.builtin.include_tasks: packages.yml
+  tags:
+    - common_packages
+- ansible.builtin.include_tasks: security.yml
+  tags:
+    - common_security

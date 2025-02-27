@@ -1,0 +1,48 @@
+- name: Set PAM limits NOFILE
+  community.general.pam_limits:
+    limit_item: nofile
+    limit_type: "-"
+    value: "32768"
+    domain: "*"
+
+- name: Set PAM limits NPROC
+  community.general.pam_limits:
+    limit_item: nproc
+    limit_type: "-"
+    value: "8192"
+    domain: "*"
+
+- name: Set kernel parameters
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_set: yes
+  with_dict:
+    fs.suid_dumpable: 0
+    net.ipv4.conf.all.send_redirects: 0
+    net.ipv4.conf.default.send_redirects: 0
+    net.ipv4.conf.default.accept_source_route: 0
+    net.ipv4.conf.all.accept_redirects: 0
+    net.ipv4.conf.default.accept_redirects: 0
+    net.ipv6.conf.all.accept_redirects: 0
+    net.ipv6.conf.default.accept_redirects: 0
+    net.ipv4.conf.all.secure_redirects: 0
+    net.ipv4.conf.default.secure_redirects: 0
+    net.ipv4.conf.all.log_martians: 1
+    net.ipv4.conf.default.log_martians: 1
+    net.ipv6.conf.all.accept_ra: 0
+    net.ipv6.conf.default.accept_ra: 0
+    net.ipv6.conf.all.disable_ipv6: 1
+    net.ipv6.conf.default.disable_ipv6: 1
+    net.ipv6.conf.lo.disable_ipv6: 1
+    vm.swappiness: 1
+
+- name: Disable services
+  when: common is defined and common.disabled_services is defined
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  with_items: "{{ common.disabled_services }}"
+  ignore_errors: true  # noqa ignore-errors
+  failed_when: false

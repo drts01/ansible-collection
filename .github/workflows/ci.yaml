@@ -1,0 +1,103 @@
+name: CI
+
+on: push
+
+concurrency:
+  group: ${{ github.workflow }}-${{  github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+env:
+  # yamllint disable rule:quoted-strings
+  XDG_CACHE_HOME: "${{ github.workspace }}/.cache"
+  ANSIBLE_LOG_PATH: "${{ github.workspace }}/ansible.log/ansible.log"
+  JUNIT_OUTPUT_DIR: "${{ github.workspace }}/ansible.log"
+  # yamllint enable rule:quoted-strings
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+          cache: pip
+          cache-dependency-path: .pre-commit-config.yaml
+      - run: pipx run pre-commit run --show-diff-on-failure --color=always --all-files
+
+#   tox:
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         toxenv: [lint, pkg]
+#     runs-on: uhg-runner
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-python@v5
+#         with:
+#           python-version-file: .python-version
+#           cache: 'pip'
+#           cache-dependency-path: requirements/*.txt
+#       - uses: actions/cache@v4
+#         with:
+#           path: .tox
+#           key: tox-${{ runner.os }}-${{ matrix.toxenv }}-${{ hashFiles('tox.ini', 'requirements/*.txt') }}
+#       - name: Install tox
+#         run: python3 -m pip install --upgrade --user tox
+#       - name: Run tox
+#         run: python3 -m tox run -e '${{ matrix.toxenv }}'
+
+#   molecule:
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         toxenv: ["20.04", "22.04", "24.04"]
+#         scenario: [base, goss]
+#       fail-fast: false
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/checkout@v4
+#         with:
+#           repository: dorny/test-reporter
+#           ref: v1.9.1
+#           path: .github/actions/test-reporter
+#       - uses: actions/setup-python@v5
+#         with:
+#           python-version-file: .python-version
+#           cache: 'pip'
+#           cache-dependency-path: requirements/*.txt
+#         id: python
+#       - name: Cache Ansible Resources
+#         uses: actions/cache@v4
+#         with:
+#           path: '${{ env.XDG_CACHE_HOME }}/ansible-compat'
+#           key: ansible-${{ runner.os }}-${{ hashFiles('requirements.yml') }}
+#       - name: Cache Tox enviroments
+#         uses: actions/cache@v4
+#         with:
+#           path: .tox
+#           key: tox-${{ runner.os }}-ubuntu-${{ hashFiles('tox.ini', 'requirements/requirements.txt') }}
+#       - run: mkdir -p ${{ env.JUNIT_OUTPUT_DIR }}
+#       - name: Install tox
+#         run: python3 -m pip install --upgrade --user tox
+#       - name: Run tox
+#         run: |
+#             # shellcheck disable=SC2001
+#             python3 -m tox run -e "ubuntu$(sed -e 's/\.//' <<< '${{ matrix.toxenv }}')" \
+#             -- test  --scenario-name '${{ matrix.scenario }}' --destroy never
+#         env:
+#           MOLECULE_NO_LOG: 'false'
+#       - name: Archive Ansible Logs
+#         uses: actions/upload-artifact@v4
+#         if: ${{ always() }}
+#         with:
+#           name: logs-${{ matrix.toxenv }}-${{ matrix.scenario }}
+#           path: ${{ env.JUNIT_OUTPUT_DIR }}
+#       - name: Test Report
+#         uses: ./.github/actions/test-reporter
+#         if: ${{ always() }}
+#         with:
+#           name: Results (${{ matrix.toxenv }}, ${{ matrix.scenario }})
+#           path: '${{ env.JUNIT_OUTPUT_DIR }}/*.xml'
+#           reporter: java-junit
+#           fail-on-error: false

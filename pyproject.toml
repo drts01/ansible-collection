@@ -1,0 +1,28 @@
+[project]
+name = "ansible-collection"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Carlos Meza", email = "carlos@digitalr00ts.com" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[tool.black]
+line-length = 100
+
+[tool.pytest.ini_options]
+addopts = ["-vvv", "-n", "2", "--log-level", "WARNING", "--color", "yes"]
+filterwarnings = ["ignore:AnsibleCollectionFinder has already been configured"]
+testpaths = ["tests"]
+
+[dependency-groups]
+build = [
+    "tox-ansible>=26.1.0",
+    "tox-uv>=1.29.0",
+]
+test = [
+    "molecule~=25.12",
+    "pytest-ansible~=26.1",
+]

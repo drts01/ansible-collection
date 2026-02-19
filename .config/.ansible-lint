@@ -1,0 +1,24 @@
+exclude_paths:
+  - .cache/
+  - .github/
+  - .tox/
+  - ~/.ansible/
+  - ~/.cache/
+  - ./mkdocs.yml
+  - molecule/default/goss.yaml
+skip_list:
+  - yaml  # yamllint runs as part of pre-commit
+  - galaxy[version-incorrect]
+  - schema[ansible-lint-config]
+enable_list:
+  # opt-in
+  - empty-string-compare
+  - galaxy
+  - no-log-password
+  - no-prompting
+  - no-same-owner
+  # - only-builtins
+parseable: true
+# quiet: true
+strict: true
+verbosity: 1

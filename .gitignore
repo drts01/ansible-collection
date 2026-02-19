@@ -1,0 +1,17 @@
+# https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Unit test / coverage reports
+.tox/
+.pytest_cache/
+
+# Environments
+.env
+.venv
+venv/
+
+# Ansible
+.ansible/

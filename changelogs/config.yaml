@@ -30,5 +30,5 @@ sections:
     - Known Issues
   - - doc_changes
     - Documentation Changes
-title: "Drts Ansible_collection Collection"
+title: digitalroots Ansible_collection Collection
 trivial_section_name: trivial

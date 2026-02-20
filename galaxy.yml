@@ -3,8 +3,8 @@
 
 # See https://docs.ansible.com/ansible/latest/dev_guide/collections_galaxy_meta.html
 
-namespace: "drts"
-name: "ansible_collection"
+namespace: drts
+name: ansible_collection
 version: 1.0.0
 readme: README.md
 authors:
@@ -14,7 +14,7 @@ description: your collection description
 license_file: LICENSE
 
 # TO-DO: update the tags based on your content type
-tags: ["linux", "tools"]
+tags: [linux, Fedora]
 # TO-DO: maintain this list to reflect the collection's dependencies
 dependencies:
   "ansible.utils": "*" # note: "*" selects the latest version available

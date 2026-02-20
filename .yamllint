@@ -14,11 +14,10 @@ rules:
     max-spaces-inside-empty: 2
   colons: enable
   commas: enable
-  comments: enable
+  comments:
+    min-spaces-from-content: 1
   comments-indentation: disable
   document-end:
-    present: false
-  document-start:
     present: false
   empty-lines: enable
   empty-values: enable
@@ -37,7 +36,7 @@ rules:
   new-lines: enable
   octal-values:
     forbid-implicit-octal: true
-    forbid-explicit-octal: false
+    forbid-explicit-octal: true
   quoted-strings:
     quote-type: double
     required: only-when-needed

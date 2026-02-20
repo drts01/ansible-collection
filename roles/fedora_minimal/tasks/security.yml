@@ -1,0 +1,135 @@
+---
+# Fedora Minimal Role - Baseline Security Tasks
+# Implements fedora-baseline-security capability
+# CIS Fedora Linux Benchmark controls
+
+# ============================================================================
+# AIDE File Integrity Monitoring
+# ============================================================================
+
+- name: CIS File Integrity Monitoring - Initialize AIDE database
+  ansible.builtin.command:
+    cmd: aideinit
+    creates: /var/lib/aide/aide.db.new
+  when: fedora_minimal_security_aide_init
+  tags:
+    - security
+    - skip_aide_init
+
+# ============================================================================
+# File and Directory Permissions
+# ============================================================================
+
+- name: CIS 5.2.3 - Set SSH directory permissions
+  ansible.builtin.file:
+    path: /etc/ssh
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - security
+
+- name: CIS 5.2.3 - Set SSH private key permissions
+  ansible.builtin.file:
+    path: /etc/ssh/ssh_host_*_key
+    owner: root
+    group: root
+    mode: "0600"
+  tags:
+    - security
+
+- name: CIS 6.1.2 - Set /etc/shadow permissions
+  ansible.builtin.file:
+    path: /etc/shadow
+    owner: root
+    group: root
+    mode: "0000"
+  tags:
+    - security
+
+- name: CIS 5.3.1 - Verify sudoers file permissions
+  ansible.builtin.file:
+    path: /etc/sudoers
+    owner: root
+    group: root
+    mode: "0440"
+  tags:
+    - security
+
+# ============================================================================
+# Sudo Configuration Hardening
+# ============================================================================
+
+- name: CIS 5.3.4 - Configure sudo with password requirement
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    regexp: ^Defaults\\s+use_pty
+    line: Defaults use_pty
+    state: present
+    validate: /usr/sbin/visudo -cf %s
+  tags:
+    - security
+
+- name: CIS 5.3.5 - Configure sudo to reset environment
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    regexp: ^Defaults\\s+env_reset
+    line: Defaults env_reset
+    state: present
+    validate: /usr/sbin/visudo -cf %s
+  tags:
+    - security
+
+- name: CIS 5.3.5 - Configure sudo timeout
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    regexp: ^Defaults\\s+timestamp_timeout
+    line: Defaults timestamp_timeout=15
+    state: present
+    validate: /usr/sbin/visudo -cf %s
+  tags:
+    - security
+
+# ============================================================================
+# Core Dump Restrictions
+# ============================================================================
+
+- name: CIS 4.1.13 - Restrict core dumps via limits
+  ansible.builtin.lineinfile:
+    path: /etc/security/limits.conf
+    regexp: ^\*\s+hard\s+core
+    line: "*                hard    core            0"
+    state: present
+  tags:
+    - security
+
+- name: CIS 4.1.13 - Restrict core dumps via kernel sysctl
+  ansible.posix.sysctl:
+    name: kernel.core_pattern
+    value: "|/bin/false"
+    state: present
+    sysctl_set: true
+  tags:
+    - security
+
+# ============================================================================
+# Secure Umask
+# ============================================================================
+
+- name: CIS 5.4.4 - Set system-wide umask in /etc/profile
+  ansible.builtin.lineinfile:
+    path: /etc/profile
+    regexp: ^\s*umask\s+
+    line: umask 0027
+    state: present
+  tags:
+    - security
+
+- name: CIS 5.4.4 - Set umask in /etc/bashrc
+  ansible.builtin.lineinfile:
+    path: /etc/bashrc
+    regexp: ^\s*umask\s+
+    line: umask 0027
+    state: present
+  tags:
+    - security

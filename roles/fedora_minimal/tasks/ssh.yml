@@ -1,0 +1,17 @@
+---
+# Fedora Minimal Role - SSH Hardening Tasks
+# Implements fedora-ssh-hardening capability
+# CIS Fedora Linux Benchmark controls: 5.2.1 - 5.2.20
+
+- name: CIS 5.2.1-5.2.20 Configure SSH daemon for secure baseline
+  ansible.builtin.template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: "0600"
+    backup: true
+    validate: /usr/sbin/sshd -t -f %s
+  notify: restart sshd
+  tags:
+    - ssh

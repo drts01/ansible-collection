@@ -1,0 +1,10 @@
+---
+# Fedora Minimal Role - Package Management Tasks
+# Implements fedora-base-packages capability
+
+- name: Install essential system packages
+  ansible.builtin.package:
+    name: "{{ fedora_minimal_packages_install }}"
+    state: present
+  tags:
+    - packages

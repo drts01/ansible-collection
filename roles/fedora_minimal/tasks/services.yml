@@ -1,0 +1,13 @@
+---
+# Fedora Minimal Role - System Services Tasks
+# Implements fedora-system-services capability
+# CIS Fedora Linux Benchmark controls: 2.1.x, 4.1.x
+
+- name: Enable and start system services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop: "{{ fedora_minimal_services_enabled }}"
+  tags:
+    - services

@@ -1,0 +1,62 @@
+---
+# Fedora Minimal Role - Variable Specifications
+argument_specs:
+  main:
+    short_description: Secure baseline configuration for Fedora 43+ systems
+    description: |
+      Provides CIS benchmark-aligned security hardening for Fedora 43+ systems
+      including package management, SSH hardening, system services, and baseline
+      security controls.
+
+    options:
+      fedora_minimal_packages_install:
+        description: List of system packages to install
+        type: list
+        elements: str
+        required: false
+        default:
+          - vim-enhanced
+          - git
+          - curl
+          - aide
+
+      fedora_minimal_ssh_port:
+        description: SSH daemon listening port (CIS 5.2.1)
+        type: int
+        required: false
+        default: 22
+
+      fedora_minimal_ssh_permit_root_login:
+        description: Allow SSH root login (CIS 5.2.2) - should be false
+        type: bool
+        required: false
+        default: false
+
+      fedora_minimal_ssh_password_authentication:
+        description: Allow password-based SSH authentication (CIS 5.2.4) - should be false
+        type: bool
+        required: false
+        default: false
+
+      fedora_minimal_ssh_protocol:
+        description: SSH protocol version to enforce (CIS 5.2.6)
+        type: int
+        required: false
+        default: 2
+        choices:
+          - 2
+
+      fedora_minimal_services_enabled:
+        description: System services to enable and start (chronyd, rsyslog)
+        type: list
+        elements: str
+        required: false
+        default:
+          - chronyd
+          - rsyslog
+
+      fedora_minimal_security_aide_init:
+        description: Initialize AIDE database on first run (may take 10+ minutes)
+        type: bool
+        required: false
+        default: true

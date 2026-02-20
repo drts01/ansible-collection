@@ -1,0 +1,24 @@
+---
+# Fedora Minimal Role - Handlers
+# Service restart handlers using listen pattern for flexibility
+
+# SSH service restart handler (triggered by SSH configuration changes)
+- name: Restart sshd
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+  listen: restart sshd
+
+# Chronyd service restart handler (triggered by chronyd configuration changes)
+- name: Restart chronyd
+  ansible.builtin.service:
+    name: chronyd
+    state: restarted
+  listen: restart chronyd
+
+# Rsyslog service restart handler (triggered by rsyslog configuration changes)
+- name: Restart rsyslog
+  ansible.builtin.service:
+    name: rsyslog
+    state: restarted
+  listen: restart rsyslog

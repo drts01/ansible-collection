@@ -1,0 +1,6 @@
+---
+- name: Test fedora_minimal role
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - fedora_minimal

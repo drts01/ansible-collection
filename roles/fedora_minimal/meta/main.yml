@@ -1,0 +1,28 @@
+---
+galaxy_info:
+  author: Ansible Collection Contributors
+  description: Secure baseline configuration for Fedora 43+ systems with CIS benchmark alignment
+  company: Digitalroots
+  license: Apache-2.0
+
+  # Minimum Ansible version
+  min_ansible_version: "2.20"
+
+  # Supported Fedora platforms (43+)
+  platforms:
+    - name: Fedora
+      versions:
+        - all
+
+  # CIS Benchmark reference
+  galaxy_tags:
+    - fedora
+    - security
+    - hardening
+    - benchmark
+    - baseline
+    - minimal
+    - configuration
+
+# Role dependencies - this role has no external role dependencies
+dependencies: []

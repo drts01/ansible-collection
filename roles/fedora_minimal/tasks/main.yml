@@ -1,0 +1,23 @@
+---
+# Fedora Minimal Role - Main Task Orchestrator
+# Includes all capability task files
+
+- name: Include package management tasks
+  ansible.builtin.include_tasks: packages.yml
+  tags:
+    - packages
+
+- name: Include SSH hardening tasks
+  ansible.builtin.include_tasks: ssh.yml
+  tags:
+    - ssh
+
+- name: Include system services tasks
+  ansible.builtin.include_tasks: services.yml
+  tags:
+    - services
+
+- name: Include baseline security tasks
+  ansible.builtin.include_tasks: security.yml
+  tags:
+    - security

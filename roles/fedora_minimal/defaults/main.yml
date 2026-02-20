@@ -1,0 +1,57 @@
+---
+# Fedora Minimal Role - Default Variables
+# All variables are namespaced with fedora_minimal_ prefix
+
+# ============================================================================
+# Package Management (fedora-base-packages capability)
+# ============================================================================
+# List of essential system packages to install on Fedora 43+ systems
+# Uses ansible.builtin.package for cross-package-manager compatibility
+fedora_minimal_packages_install:
+  - vim-enhanced
+  - git
+  - curl
+  - aide
+
+# ============================================================================
+# SSH Hardening (fedora-ssh-hardening capability)
+# ============================================================================
+# SSH daemon configuration settings
+# CIS Fedora Linux Benchmark controls: 5.2.1 - 5.2.20
+
+# SSH listening port (default: 22, CIS 5.2.1)
+fedora_minimal_ssh_port: 22
+
+# Disable root login via SSH (CIS 5.2.2)
+fedora_minimal_ssh_permit_root_login: false
+
+# Disable password authentication (CIS 5.2.4)
+fedora_minimal_ssh_password_authentication: false
+
+# SSH protocol version to use (CIS 5.2.6)
+fedora_minimal_ssh_protocol: 2
+
+# ============================================================================
+# System Services (fedora-system-services capability)
+# ============================================================================
+# List of essential system services to enable and start
+# chronyd: NTP client for time synchronization (CIS 2.1.x)
+# rsyslog: System logging daemon (CIS 4.1.x)
+fedora_minimal_services_enabled:
+  - chronyd
+  - rsyslog
+
+# ============================================================================
+# Baseline Security (fedora-baseline-security capability)
+# ============================================================================
+# Initialize AIDE (Advanced Intrusion Detection Environment) database
+# Initial database creation can take 10+ minutes on large systems
+# Set to false to skip initialization, run separately later
+fedora_minimal_security_aide_init: true
+
+# ============================================================================
+# Internal Variables (not intended for direct override)
+# ============================================================================
+# These variables are used internally by the role for task organization
+fedora_minimal_role_version: 1.0.0
+fedora_minimal_cis_benchmark_version: 1.0.0

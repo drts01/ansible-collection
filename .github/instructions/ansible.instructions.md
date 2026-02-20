@@ -50,7 +50,7 @@ Write idempotent, secure roles, tasks, and playbooks for RPM/DEB systems. Align 
 
 
 ## Secret Management
- 
+
 - Avoid using `set_fact` to store secrets
 - When using Ansible alone, store secrets using Ansible Vault
   - Use the following process to make it easy to find where vaulted variables are defined
@@ -118,7 +118,7 @@ Write idempotent, secure roles, tasks, and playbooks for RPM/DEB systems. Align 
 - Use `ansible-playbook --syntax-check` to check for syntax errors
 - Use `ansible-playbook --check --diff` to perform a dry-run of playbook execution
 
-<!-- 
+<!--
 These guidelines were based on, or copied from, the following sources:
 
 - [Ansible Documentation - Tips and Tricks](https://docs.ansible.com/ansible/latest/tips_tricks/index.html)

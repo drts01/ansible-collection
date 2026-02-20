@@ -1,0 +1,58 @@
+# Tox-Ansible Configuration (TOML Format)
+# Reference: https://docs.ansible.com/projects/tox-ansible/configuration/
+# Tox v4 reference: https://tox.wiki/en/4.41.0/reference/config.html
+#
+# This configuration uses:
+# - tox v4+: Modern test automation framework
+# - tox-ansible>=26.1: Generates test environments for multiple Ansible versions
+# - tox-uv>=1.29: Fast dependency resolution using the uv package manager
+#
+# To run tests locally:
+#   tox list              # Show available test environments
+#   tox -e molecule       # Run Molecule scenario tests
+#   tox                   # Run all test environments
+
+[ansible]
+# Python and Ansible versions to skip in the test matrix
+# Following pyproject.toml constraint: requires-python = ">=3.14"
+skip = [
+    "py3.7",
+    "py3.8",
+    "py3.9",
+    "py3.10",
+    "py3.11",
+    "py3.12",
+    "py3.13",
+    "2.9",
+    "2.10",
+    "2.11",
+    "2.12",
+    "2.13",
+]
+
+[tox]
+# Required tox plugins
+# - tox>=4.0: Modern tox with native TOML support
+# - tox-ansible>=26.1: Ansible version matrix generation
+# - tox-uv>=1.29: Fast dependency resolution (~10x faster than pip)
+requires = [
+    "tox>=4.40",
+    "tox-ansible>=26.1",
+    "tox-uv>=1.29",
+]
+
+[env_run_base]
+runner = "uv-venv-lock-runner"
+skip_install = "true"
+package = "skip"
+
+[env.molecule]
+# Molecule test environment - runs scenarios via pytest-ansible integration
+# This provides:
+# - Better test discovery and reporting through pytest
+# - Integration with pytest markers and plugins
+# - Faster feedback than direct molecule commands
+description = "Run Molecule scenarios via pytest-ansible"
+commands = [
+    ["pytest", "tests/molecule/", { replace = "posargs", default = ["-v"], extend = true },],
+]

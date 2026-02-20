@@ -1,4 +1,4 @@
-exclude: ^CHANGELOG\.md$
+exclude: ^(CHANGELOG\.md|\.cline.*|\.serena|\.openspec)
 repos:
   - repo: https://github.com/ansible-network/collection_prep
     rev: 1.1.2

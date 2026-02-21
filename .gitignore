@@ -1,17 +1,44 @@
-# https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Unit test / coverage reports
-.tox/
-.pytest_cache/
-
-# Environments
-.env
-.venv
-venv/
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
 # Ansible
-.ansible/
+*.retry
+.ansible
+.cache
+
+# Testing
+.tox/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Collection build artifacts
+*.tar.gz
+
+# Changelog plugin cache
+changelogs/.plugin-cache.yaml

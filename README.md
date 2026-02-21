@@ -1,6 +1,6 @@
-# Drts Ansible_collection Collection
+# Drts Linux Collection
 
-This repository contains the `drts.ansible_collection` Ansible Collection.
+This repository contains the `drts.linux` Ansible Collection.
 
 <!--start requires_ansible-->
 <!--end requires_ansible-->
@@ -19,7 +19,7 @@ which requirements are needed.
 ## Using this collection
 
 ```bash
-    ansible-galaxy collection install drts.ansible_collection
+    ansible-galaxy collection install drts.linux
 ```
 
 You can also include it in a `requirements.yml` file and install it via
@@ -27,23 +27,23 @@ You can also include it in a `requirements.yml` file and install it via
 
 ```yaml
 collections:
-  - name: drts.ansible_collection
+  - name: drts.linux
 ```
 
 To upgrade the collection to the latest available version, run the following
 command:
 
 ```bash
-ansible-galaxy collection install drts.ansible_collection --upgrade
+ansible-galaxy collection install drts.linux --upgrade
 ```
 
 You can also install a specific version of the collection, for example, if you
 need to downgrade when something is broken in the latest version (please report
 an issue in this repository). Use the following syntax where `X.Y.Z` can be any
-[available version](https://galaxy.ansible.com/drts/ansible_collection):
+[available version](https://galaxy.ansible.com/drts/linux):
 
 ```bash
-ansible-galaxy collection install drts.ansible_collection:==X.Y.Z
+ansible-galaxy collection install drts.linux:==X.Y.Z
 ```
 
 See
@@ -53,7 +53,7 @@ for more details.
 ## Release notes
 
 See the
-[changelog](https://github.com/ansible-collections/drts.ansible_collection/tree/main/CHANGELOG.rst).
+[changelog](https://github.com/ansible-collections/drts.linux/tree/main/CHANGELOG.rst).
 
 ## Roadmap
 

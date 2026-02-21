@@ -1,7 +1,7 @@
 ---
 schemaVersion: 2.2.2
 metadata:
-  name: drts.ansible_collection-6ddcdf18
+  name: drts.linux-6ddcdf18
 components:
   - name: tooling-container
     container:

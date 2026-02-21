@@ -4,13 +4,13 @@
 # See https://docs.ansible.com/ansible/latest/dev_guide/collections_galaxy_meta.html
 
 namespace: drts
-name: ansible_collection
+name: linux
 version: 1.0.0
 readme: README.md
 authors:
-  - your name <example@domain.com>
+  - Carlos Meza <hire@carlosmeza.com>
 
-description: your collection description
+description: Ansible collection for Fedora system configuration and hardening with CIS benchmark-aligned security controls
 license_file: LICENSE
 
 # TO-DO: update the tags based on your content type
@@ -20,10 +20,10 @@ dependencies:
   "ansible.utils": "*" # note: "*" selects the latest version available
   "ansible.posix": "*"
 
-repository: http://example.com/repository
-documentation: http://docs.example.com
-homepage: http://example.com
-issues: http://example.com/issue/tracker
+repository: https://github.com/drts01/ansible-collection
+documentation: https://github.com/drts01/ansible-collection/blob/main/README.md
+homepage: https://github.com/drts01/ansible-collection
+issues: https://github.com/drts01/ansible-collection/issues
 
 # A list of file glob-like patterns used to filter any files or directories that should not be included in the build
 # artifact. A pattern is matched from the relative path of the file or directory of the collection directory. This
@@ -35,6 +35,14 @@ build_ignore:
   - .ansible
   - .cache
   - .tox
+  - openspec
+  - .pytest_cache
+  - .venv
+  - .serena
+  - .cline
+  - .clinerules
+  - .devcontainer
+  - .config
 # A dict controlling use of manifest directives used in building the collection artifact. The key 'directives' is a
 # list of MANIFEST.in style
 # L(directives,https://packaging.python.org/en/latest/guides/using-manifest-in/#manifest-in-commands). The key

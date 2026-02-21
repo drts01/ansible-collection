@@ -1,4 +1,4 @@
-"""Unit tests for drts.ansible_collection."""
+"""Unit tests for drts.linux."""
 
 
 def test_basic() -> None:

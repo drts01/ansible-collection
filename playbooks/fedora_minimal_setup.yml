@@ -1,0 +1,32 @@
+---
+- name: "Configure Fedora systems with security hardening"
+  hosts: all
+  become: true
+  gather_facts: true
+
+  roles:
+    - role: drts.linux.fedora_minimal
+      vars:
+        # Package management
+        fedora_minimal_packages_install:
+          - vim-enhanced
+          - git
+          - curl
+          - aide
+          - tmux
+          - htop
+
+        # SSH hardening (CIS benchmark aligned)
+        fedora_minimal_ssh_port: 22
+        fedora_minimal_ssh_permit_root_login: false
+        fedora_minimal_ssh_password_authentication: false
+        fedora_minimal_ssh_protocol: 2
+
+        # System services
+        fedora_minimal_services_enabled:
+          - chronyd
+          - rsyslog
+
+        # Security - AIDE initialization
+        # Note: First run may take 10+ minutes to initialize AIDE database
+        fedora_minimal_security_aide_init: true

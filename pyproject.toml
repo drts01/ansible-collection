@@ -1,5 +1,5 @@
 [project]
-name = "ansible-collection"
+name = "linux"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -25,7 +25,7 @@ build = [
 line-length = 118
 
 [tool.isort]
-known_first_party = "ansible_collections.drts.ansible_collection"
+known_first_party = "ansible_collections.drts.linux"
 line_length = 120
 lines_after_imports = 2
 lines_between_types = 1

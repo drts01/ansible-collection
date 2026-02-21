@@ -16,18 +16,11 @@
 # Python and Ansible versions to skip in the test matrix
 # Following pyproject.toml constraint: requires-python = ">=3.14"
 skip = [
-    "py3.7",
-    "py3.8",
-    "py3.9",
     "py3.10",
     "py3.11",
     "py3.12",
-    "py3.13",
-    "2.9",
-    "2.10",
-    "2.11",
-    "2.12",
-    "2.13",
+    "2.18",
+    "2.19",
 ]
 
 [tox]

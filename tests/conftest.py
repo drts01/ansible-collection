@@ -7,6 +7,7 @@ and test discovery capabilities.
 """
 
 import subprocess
+
 from pathlib import Path
 
 import pytest

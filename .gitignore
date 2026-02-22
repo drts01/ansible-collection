@@ -31,6 +31,7 @@ wheels/
 .pytest_cache/
 .coverage
 htmlcov/
+tests/output/
 
 # Virtual environments
 .venv/

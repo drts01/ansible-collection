@@ -38,6 +38,33 @@ requires = [
 runner = "uv-venv-lock-runner"
 skip_install = "true"
 package = "skip"
+base_python = ["python3.14"]
+
+[env.coverage]
+# Coverage test environment - runs pytest with coverage reporting
+# Generates multiple coverage report formats:
+# - HTML: tests/output/coverage/html/index.html
+# - XML: tests/output/coverage/coverage.xml
+# - Terminal: immediate feedback with missing lines
+# - JUnit: tests/output/junit/results.xml
+description = "Run tests with coverage reporting"
+commands = [
+    ["pytest", "tests/", "--cov", "--cov-report=html", "--cov-report=xml", "--cov-report=term-missing"],
+]
+
+[env.lint]
+# Linting environment - runs ansible-lint
+# Validates:
+# - Ansible best practices and style
+# Note: yamllint runs separately via pre-commit hooks
+description = "Run linting and validation checks"
+groups = ["lint"]
+allowlist_externals = [
+    "ansible-lint",
+]
+commands = [
+    ["ansible-lint", "."],
+]
 
 [env.molecule]
 # Molecule test environment - runs scenarios via pytest-ansible integration

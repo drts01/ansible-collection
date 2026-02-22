@@ -10,13 +10,14 @@ readme: README.md
 authors:
   - Carlos Meza <hire@carlosmeza.com>
 
-description: Ansible collection for Fedora system configuration and hardening with CIS benchmark-aligned security controls
+description: >-
+  Ansible collection for Fedora system configuration and hardening with CIS benchmark-aligned security controls
 license_file: LICENSE
 
 tags: [linux, Fedora]
 dependencies:
-  "ansible.utils": "*" # note: "*" selects the latest version available
-  "ansible.posix": "*"
+  'ansible.utils': '*'  # note: "*" selects the latest version available
+  'ansible.posix': '*'
 
 repository: https://github.com/drts01/ansible-collection
 documentation: https://github.com/drts01/ansible-collection/blob/main/README.md

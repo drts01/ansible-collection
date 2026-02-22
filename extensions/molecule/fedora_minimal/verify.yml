@@ -19,53 +19,53 @@
     - name: Check vim-enhanced package
       ansible.builtin.assert:
         that:
-          - "'vim-enhanced' in ansible_facts.packages"
-        fail_msg: "vim-enhanced package not installed"
-        success_msg: "vim-enhanced package verified installed"
+          - '''vim-enhanced'' in ansible_facts.packages'
+        fail_msg: vim-enhanced package not installed
+        success_msg: vim-enhanced package verified installed
 
     - name: Check git package
       ansible.builtin.assert:
         that:
-          - "'git' in ansible_facts.packages"
-        fail_msg: "git package not installed"
-        success_msg: "git package verified installed"
+          - '''git'' in ansible_facts.packages'
+        fail_msg: git package not installed
+        success_msg: git package verified installed
 
     - name: Check curl package
       ansible.builtin.assert:
         that:
-          - "'curl' in ansible_facts.packages"
-        fail_msg: "curl package not installed"
-        success_msg: "curl package verified installed"
+          - '''curl'' in ansible_facts.packages'
+        fail_msg: curl package not installed
+        success_msg: curl package verified installed
 
     - name: Check aide package
       ansible.builtin.assert:
         that:
-          - "'aide' in ansible_facts.packages"
-        fail_msg: "aide package not installed"
-        success_msg: "aide package verified installed"
+          - '''aide'' in ansible_facts.packages'
+        fail_msg: aide package not installed
+        success_msg: aide package verified installed
 
     # ========================================================================
     # System Services Verification
     # ========================================================================
 
     - name: Verify chronyd service is enabled and running
-      ansible.builtin.service_facts:
+      ansible.builtin.service_facts: {}
 
     - name: Check chronyd is running
       ansible.builtin.assert:
         that:
-          - "ansible_facts.services['chronyd.service']['state'] == 'running'"
-          - "ansible_facts.services['chronyd.service']['enabled']"
-        fail_msg: "chronyd service is not running or not enabled"
-        success_msg: "chronyd service verified running and enabled"
+          - ansible_facts.services['chronyd.service']['state'] == 'running'
+          - ansible_facts.services['chronyd.service']['enabled']
+        fail_msg: chronyd service is not running or not enabled
+        success_msg: chronyd service verified running and enabled
 
     - name: Check rsyslog is running
       ansible.builtin.assert:
         that:
-          - "ansible_facts.services['rsyslog.service']['state'] == 'running'"
-          - "ansible_facts.services['rsyslog.service']['enabled']"
-        fail_msg: "rsyslog service is not running or not enabled"
-        success_msg: "rsyslog service verified running and enabled"
+          - ansible_facts.services['rsyslog.service']['state'] == 'running'
+          - ansible_facts.services['rsyslog.service']['enabled']
+        fail_msg: rsyslog service is not running or not enabled
+        success_msg: rsyslog service verified running and enabled
 
     # ========================================================================
     # SSH Configuration Verification
@@ -79,10 +79,10 @@
     - name: Check SSH config exists
       ansible.builtin.assert:
         that:
-          - "sshd_config_stat.stat.exists"
-          - "sshd_config_stat.stat.mode == '0600'"
-        fail_msg: "sshd_config doesn't exist or has wrong permissions"
-        success_msg: "sshd_config exists with correct permissions (0600)"
+          - sshd_config_stat.stat.exists
+          - sshd_config_stat.stat.mode == '0600'
+        fail_msg: sshd_config doesn't exist or has wrong permissions
+        success_msg: sshd_config exists with correct permissions (0600)
 
     - name: Verify SSH root login disabled
       ansible.builtin.command:
@@ -94,9 +94,9 @@
     - name: Check SSH root login is disabled
       ansible.builtin.assert:
         that:
-          - "ssh_root_login_check.rc == 0"
-        fail_msg: "SSH root login is not disabled"
-        success_msg: "SSH root login verified disabled"
+          - ssh_root_login_check.rc == 0
+        fail_msg: SSH root login is not disabled
+        success_msg: SSH root login verified disabled
 
     - name: Verify SSH password authentication disabled
       ansible.builtin.command:
@@ -108,9 +108,9 @@
     - name: Check SSH password authentication is disabled
       ansible.builtin.assert:
         that:
-          - "ssh_password_auth_check.rc == 0"
-        fail_msg: "SSH password authentication is not disabled"
-        success_msg: "SSH password authentication verified disabled"
+          - ssh_password_auth_check.rc == 0
+        fail_msg: SSH password authentication is not disabled
+        success_msg: SSH password authentication verified disabled
 
     # ========================================================================
     # File Permissions Verification
@@ -124,9 +124,9 @@
     - name: Check /etc/shadow permissions (0000)
       ansible.builtin.assert:
         that:
-          - "shadow_stat.stat.mode == '0000'"
-        fail_msg: "/etc/shadow does not have mode 0000"
-        success_msg: "/etc/shadow verified with correct permissions (0000)"
+          - shadow_stat.stat.mode == '0000'
+        fail_msg: /etc/shadow does not have mode 0000
+        success_msg: /etc/shadow verified with correct permissions (0000)
 
     - name: Verify /etc/ssh directory permissions
       ansible.builtin.stat:
@@ -136,9 +136,9 @@
     - name: Check /etc/ssh permissions (0755)
       ansible.builtin.assert:
         that:
-          - "ssh_dir_stat.stat.mode == '0755'"
-        fail_msg: "/etc/ssh does not have mode 0755"
-        success_msg: "/etc/ssh verified with correct permissions (0755)"
+          - ssh_dir_stat.stat.mode == '0755'
+        fail_msg: /etc/ssh does not have mode 0755
+        success_msg: /etc/ssh verified with correct permissions (0755)
 
     - name: Verify /etc/sudoers permissions
       ansible.builtin.stat:
@@ -148,9 +148,9 @@
     - name: Check /etc/sudoers permissions (0440)
       ansible.builtin.assert:
         that:
-          - "sudoers_stat.stat.mode == '0440'"
-        fail_msg: "/etc/sudoers does not have mode 0440"
-        success_msg: "/etc/sudoers verified with correct permissions (0440)"
+          - sudoers_stat.stat.mode == '0440'
+        fail_msg: /etc/sudoers does not have mode 0440
+        success_msg: /etc/sudoers verified with correct permissions (0440)
 
     # ========================================================================
     # AIDE Database Verification
@@ -164,9 +164,9 @@
     - name: Check AIDE database was initialized
       ansible.builtin.assert:
         that:
-          - "aide_db_stat.stat.exists"
-        fail_msg: "AIDE database not initialized"
-        success_msg: "AIDE database verified initialized"
+          - aide_db_stat.stat.exists
+        fail_msg: AIDE database not initialized
+        success_msg: AIDE database verified initialized
 
     # ========================================================================
     # Security Configuration Verification
@@ -182,9 +182,9 @@
     - name: Check umask in /etc/profile
       ansible.builtin.assert:
         that:
-          - "umask_profile_check.rc == 0"
-        fail_msg: "umask not configured in /etc/profile"
-        success_msg: "umask verified in /etc/profile"
+          - umask_profile_check.rc == 0
+        fail_msg: umask not configured in /etc/profile
+        success_msg: umask verified in /etc/profile
 
     - name: Verify core dump restrictions
       ansible.builtin.command:
@@ -196,6 +196,6 @@
     - name: Check core dump restrictions
       ansible.builtin.assert:
         that:
-          - "core_dump_check.rc == 0"
-        fail_msg: "Core dump restrictions not configured"
-        success_msg: "Core dump restrictions verified configured"
+          - core_dump_check.rc == 0
+        fail_msg: Core dump restrictions not configured
+        success_msg: Core dump restrictions verified configured

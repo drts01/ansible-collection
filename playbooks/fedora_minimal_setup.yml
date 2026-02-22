@@ -1,5 +1,5 @@
 ---
-- name: "Configure Fedora systems with security hardening"
+- name: Configure Fedora systems with security hardening
   hosts: all
   become: true
   gather_facts: true

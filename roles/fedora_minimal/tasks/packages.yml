@@ -4,7 +4,7 @@
 
 - name: Install essential system packages
   ansible.builtin.package:
-    name: "{{ fedora_minimal_packages_install }}"
+    name: '{{ fedora_minimal_packages_install }}'
     state: present
   tags:
     - packages

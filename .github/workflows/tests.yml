@@ -39,32 +39,32 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.14'
-      
+
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
           cache-dependency-glob: uv.lock
-      
+
       - name: Install dependencies
         run: uv sync --group dev
-      
+
       - name: Run tests with coverage
         run: uv run pytest tests/ --cov --cov-report=html --cov-report=xml --cov-report=term-missing
         continue-on-error: true
-      
+
       - name: Coverage comment
         uses: py-cov-action/python-coverage-comment-action@v3
         if: github.event_name == 'pull_request'
         with:
           GITHUB_TOKEN: ${{ github.token }}
         continue-on-error: true
-      
+
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: always()
@@ -73,7 +73,7 @@ jobs:
           path: tests/output/junit/results.xml
           reporter: java-junit
         continue-on-error: true
-      
+
       - name: Add coverage summary to Actions summary
         if: always()
         run: |
@@ -83,7 +83,7 @@ jobs:
           else
             echo "No coverage data available" >> $GITHUB_STEP_SUMMARY
           fi
-      
+
       - name: Upload coverage HTML report
         uses: actions/upload-artifact@v4
         if: always()
@@ -91,7 +91,7 @@ jobs:
           name: coverage-html
           path: tests/output/coverage/html/
           retention-days: 30
-      
+
       - name: Upload coverage XML report
         uses: actions/upload-artifact@v4
         if: always()
@@ -99,7 +99,7 @@ jobs:
           name: coverage-xml
           path: tests/output/coverage/coverage.xml
           retention-days: 30
-      
+
       - name: Upload JUnit XML
         uses: actions/upload-artifact@v4
         if: always()

@@ -6,23 +6,33 @@ repos:
     hooks:
       - id: update-docs
 
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
       - id: check-executables-have-shebangs
+      - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
       - id: check-toml
       - id: check-yaml
         args: [--allow-multiple-documents, --unsafe]
+      - id: debug-statements
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
       - id: mixed-line-ending
         args: [--fix=lf]
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
-      - id: check-merge-conflict
-      - id: check-symlinks
-      - id: debug-statements
+
+  - repo: https://github.com/sirosen/texthooks
+    rev: 0.7.1
+    hooks:
+      - id: fix-smartquotes
 
   - repo: https://github.com/asottile/add-trailing-comma
     rev: v4.0.0
@@ -42,7 +52,7 @@ repos:
   #         - prettier-plugin-toml
 
   - repo: https://github.com/PyCQA/isort
-    rev: 7.0.0
+    rev: 8.0.0
     hooks:
       - id: isort
         name: Sort import statements using isort

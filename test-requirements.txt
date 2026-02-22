@@ -1,4 +1,4 @@
-# TO-DO: add python packages that are required for testing this collection
-pytest-ansible
-pytest-xdist
-molecule
+# Test dependencies managed in pyproject.toml [dependency-groups.dev]
+# Install with: uv sync --group dev
+# Or for legacy tools: pip install -e .[dev]
+-e .

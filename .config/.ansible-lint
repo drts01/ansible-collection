@@ -19,7 +19,6 @@ enable_list:
   - no-prompting
   - no-same-owner
   # - only-builtins
-parseable: true
 # quiet: true
 strict: true
 verbosity: 1

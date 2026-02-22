@@ -1,4 +1,4 @@
-"""Unit tests for drts.linux."""
+"""Unit tests for drts.casc."""
 
 
 def test_basic() -> None:

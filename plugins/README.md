@@ -1,6 +1,6 @@
 # Plugins
 
-This directory contains Ansible plugins for the `drts.linux` collection.
+This directory contains Ansible plugins for the `drts.casc` collection.
 
 ## Directory Structure
 

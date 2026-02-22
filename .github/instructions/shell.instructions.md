@@ -89,7 +89,7 @@ Generate POSIX-first shell code and call out bash/zsh-only features with minimum
 - Use smoke tests for critical paths.
 - Validate scripts with representative input fixtures.
 
-## Quick Do/Don’t
+## Quick Do/Don't
 
 | Do                           | Don't                          |
 | ---------------------------- | ------------------------------ |

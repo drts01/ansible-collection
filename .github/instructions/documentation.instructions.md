@@ -12,7 +12,7 @@ applyTo: '**/docs/**/*.md,**/README.md'
 
 ## Authoring Checklist
 - Prefer numbered steps for procedures; use tables only for structured data.
-- Write in present tense, second person (“You”) and keep sentences ≤25 words.
+- Write in present tense, second person ("You") and keep sentences ≤25 words.
 - Use code fences with language tags; add inline comments when needed.
 
 ## Formatting Rules
@@ -38,7 +38,7 @@ applyTo: '**/docs/**/*.md,**/README.md'
 - Address feedback within two business days and keep discussion in-thread.
 
 ## Versioning & Changelog
-- Note documentation-only changes under a dedicated “Docs” section in `CHANGELOG.md`.
+- Note documentation-only changes under a dedicated "Docs" section in `CHANGELOG.md`.
 - When documenting new features, reference the feature flag or release ID.
 
 ## Archival

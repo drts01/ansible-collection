@@ -5,7 +5,7 @@ requires = [ "uv-build>=0.10.4,<0.11" ]
 [project]
 name = "casc"
 version = "0.1.0"
-description = "Add your description here"
+description = "Ansible collection for Fedora system configuration and hardening with CIS benchmark-aligned security controls"
 readme = "README.md"
 authors = [ { name = "Carlos Meza", email = "carlos@digitalr00ts.com" } ]
 requires-python = ">=3.14"
@@ -14,15 +14,29 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  "ansible-lint~=26.1",
-  "molecule-plugins[docker,podman]~=25.8",
-  "pytest-ansible~=26.1",
+  "ansible-core>=2.20",
 ]
 
 [dependency-groups]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=6.0",
+  "pytest-xdist>=3.0",
+  "pytest-ansible>=26.1",
+  "coverage[toml]>=7.0",
+  "molecule>=7.0",
+  "molecule-plugins[podman]>=25.8",
+]
+
 build = [
+  "tox>=4.40",
   "tox-ansible>=26.1",
   "tox-uv>=1.29",
+]
+
+lint = [
+  "ansible-lint>=26.1",
+  "yamllint>=1.35",
 ]
 
 [tool.uv]
@@ -41,11 +55,43 @@ profile = "black"
 [tool.flake8]
 max-line-length = 120
 
-[tool.pytest]
-ini_options.addopts = [ "-vvv", "-n", "2", "--log-level", "WARNING", "--color", "yes" ]
-ini_options.filterwarnings = [ "ignore:AnsibleCollectionFinder has already been configured" ]
-ini_options.testpaths = [ "tests/unit", "tests/integration", "tests/molecule" ]
-ini_options.markers = [
+[tool.pytest.ini_options]
+addopts = [
+  "-vvv",
+  "-n", "2",
+  "--log-level", "WARNING",
+  "--color", "yes",
+  "--cov=ansible_collections.drts.casc",
+  "--cov-report=html:tests/output/coverage/html",
+  "--cov-report=xml:tests/output/coverage/coverage.xml",
+  "--cov-report=term-missing",
+  "--junit-xml=tests/output/junit/results.xml",
+]
+filterwarnings = [
+  "ignore:AnsibleCollectionFinder has already been configured",
+]
+testpaths = [
+  "tests/unit",
+  "tests/integration",
+  "tests/molecule",
+]
+markers = [
   "molecule: mark test as a Molecule scenario execution",
   "slow: mark test as slow running",
+]
+
+[tool.coverage.run]
+source = ["ansible_collections.drts.casc"]
+omit = [
+  "*/tests/*",
+  "*/test_*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
 ]

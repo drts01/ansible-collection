@@ -66,6 +66,21 @@ commands = [
     ["ansible-lint", "."],
 ]
 
+[env.sanity]
+# Sanity test environment - runs ansible-test sanity checks locally
+# Validates:
+# - Python import errors
+# - YAML/Jinja2 syntax
+# - Ansible best practices
+# - Documentation format
+# - Metadata validation (galaxy.yml, runtime.yml)
+# Note: Uses --local flag for faster execution without Docker
+# CI uses containerized sanity for consistency
+description = "Run ansible-test sanity checks locally"
+commands = [
+    ["ansible-test", "sanity", "--local", "-v"],
+]
+
 [env.molecule]
 # Molecule test environment - runs integration tests via pytest-ansible
 # This provides:

@@ -69,6 +69,16 @@ uv run pytest tests/unit/ -v
 uv run pytest tests/integration/ -v
 ```
 
+### Quick Reference: When to Use Each Command
+
+| Command | Use Case | When to Run |
+|---------|----------|-------------|
+| `tox run -e sanity` | Quick validation of code standards | Before committing changes |
+| `tox run -e lint` | Ansible-lint checks | After modifying playbooks/roles |
+| `tox run -e coverage` | Full test suite with coverage | Before pushing to remote |
+| `tox run -e molecule` | Integration tests with containers | After role/playbook changes |
+| `tox list` | See all available environments | When exploring test options |
+
 ## Running Tests with Coverage
 
 The collection is configured to automatically generate coverage reports in multiple formats:
@@ -123,6 +133,29 @@ Run Ansible linting (yamllint runs via pre-commit hooks):
 
 ```bash
 tox run -e lint
+```
+
+### Sanity Environment
+
+Run ansible-test sanity checks locally for quick validation:
+
+```bash
+tox run -e sanity
+```
+
+**What it checks:**
+- **Import validation**: Python import errors in plugins/modules
+- **Syntax**: YAML, Python, and Jinja2 syntax errors
+- **Documentation**: Ansible module/plugin documentation format
+- **Best practices**: Ansible coding standards and conventions
+- **Metadata**: galaxy.yml and runtime.yml validation
+- **Code quality**: Basic pylint/pydocstyle checks
+
+**Note**: This runs with `--local` flag for fast execution without Docker. CI runs containerized sanity tests for consistency. Most checks will be identical, but there may be minor environment differences.
+
+**To match CI exactly** (requires Docker/Podman):
+```bash
+ansible-test sanity --docker default -v
 ```
 
 ### Molecule Environment

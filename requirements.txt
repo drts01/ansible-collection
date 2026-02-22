@@ -1,4 +1,0 @@
-# Dependencies managed in pyproject.toml [project.dependencies]
-# Install runtime dependencies with: uv sync
-# Or for legacy tools: pip install -e .
--e .

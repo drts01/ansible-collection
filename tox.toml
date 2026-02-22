@@ -67,12 +67,13 @@ commands = [
 ]
 
 [env.molecule]
-# Molecule test environment - runs scenarios via pytest-ansible integration
+# Molecule test environment - runs integration tests via pytest-ansible
 # This provides:
+# - Automatic discovery of Molecule scenarios in extensions/molecule/
 # - Better test discovery and reporting through pytest
-# - Integration with pytest markers and plugins
+# - Integration with pytest fixtures and plugins
 # - Faster feedback than direct molecule commands
-description = "Run Molecule scenarios via pytest-ansible"
+description = "Run Molecule scenarios via pytest-ansible integration tests"
 commands = [
-    ["pytest", "tests/molecule/", { replace = "posargs", default = ["-v"], extend = true },],
+    ["pytest", "tests/integration/", { replace = "posargs", default = ["-v"], extend = true },],
 ]

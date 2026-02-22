@@ -1,12 +1,9 @@
 ---
 exclude_paths:
-  - .cache/
+  - .*
   - .github/
-  - .tox/
-  - ~/.ansible/
-  - ~/.cache/
-  - ./mkdocs.yml
-  - molecule/default/goss.yaml
+  - mkdocs.yml
+  - openspec/
 skip_list:
   - yaml  # yamllint runs as part of pre-commit
   - galaxy[version-incorrect]

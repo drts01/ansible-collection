@@ -13,6 +13,10 @@ on: # yamllint disable-line rule:truthy
   # schedule:
     # - cron: '0 0 * * *'
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   changelog:
     uses: ansible/ansible-content-actions/.github/workflows/changelog.yaml@main
@@ -30,6 +34,79 @@ jobs:
     with:
       collection_pre_install: >-
         git+https://github.com/ansible-collections/ansible.utils.git
+  coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      
+      - name: Install dependencies
+        run: uv sync --group dev
+      
+      - name: Run tests with coverage
+        run: uv run pytest tests/ --cov --cov-report=html --cov-report=xml --cov-report=term-missing
+        continue-on-error: true
+      
+      - name: Coverage comment
+        uses: py-cov-action/python-coverage-comment-action@v3
+        if: github.event_name == 'pull_request'
+        with:
+          GITHUB_TOKEN: ${{ github.token }}
+        continue-on-error: true
+      
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Test Results
+          path: tests/output/junit/results.xml
+          reporter: java-junit
+        continue-on-error: true
+      
+      - name: Add coverage summary to Actions summary
+        if: always()
+        run: |
+          echo "## Coverage Report" >> $GITHUB_STEP_SUMMARY
+          if [ -f tests/output/coverage/coverage.xml ]; then
+            echo "Coverage reports generated successfully" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "No coverage data available" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Upload coverage HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-html
+          path: tests/output/coverage/html/
+          retention-days: 30
+      
+      - name: Upload coverage XML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-xml
+          path: tests/output/coverage/coverage.xml
+          retention-days: 30
+      
+      - name: Upload JUnit XML
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: junit-results
+          path: tests/output/junit/results.xml
+          retention-days: 30
   all_green:
     if: ${{ always() }}
     needs:

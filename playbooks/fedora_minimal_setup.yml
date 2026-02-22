@@ -5,7 +5,7 @@
   gather_facts: true
 
   roles:
-    - role: drts.linux.fedora_minimal
+    - role: drts.casc.fedora_minimal
       vars:
         # Package management
         fedora_minimal_packages_install:

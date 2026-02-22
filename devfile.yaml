@@ -1,7 +1,7 @@
 ---
 schemaVersion: 2.2.2
 metadata:
-  name: drts.linux-6ddcdf18
+  name: drts.casc-6ddcdf18
 components:
   - name: tooling-container
     container:

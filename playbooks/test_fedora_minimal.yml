@@ -3,4 +3,4 @@
   hosts: localhost
   gather_facts: false
   roles:
-    - drts.linux.fedora_minimal
+    - drts.casc.fedora_minimal

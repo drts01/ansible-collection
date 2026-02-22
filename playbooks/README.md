@@ -1,6 +1,6 @@
 # Playbooks
 
-This directory contains example playbooks demonstrating how to use the roles and plugins from the `drts.linux` collection.
+This directory contains example playbooks demonstrating how to use the roles and plugins from the `drts.casc` collection.
 
 ## Available Playbooks
 
@@ -10,7 +10,7 @@ Basic test playbook for the `fedora_minimal` role running against localhost.
 
 **Usage**:
 ```bash
-ansible-playbook drts.linux.test_fedora_minimal
+ansible-playbook drts.casc.test_fedora_minimal
 ```
 
 ### fedora_minimal_setup.yml
@@ -20,13 +20,13 @@ Production-ready example playbook for configuring Fedora systems with CIS benchm
 **Usage**:
 ```bash
 # Run against specific hosts
-ansible-playbook drts.linux.fedora_minimal_setup -i inventory/
+ansible-playbook drts.casc.fedora_minimal_setup -i inventory/
 
 # Check mode (dry-run)
-ansible-playbook drts.linux.fedora_minimal_setup -i inventory/ --check
+ansible-playbook drts.casc.fedora_minimal_setup -i inventory/ --check
 
 # Limit to specific hosts
-ansible-playbook drts.linux.fedora_minimal_setup -i inventory/ --limit webservers
+ansible-playbook drts.casc.fedora_minimal_setup -i inventory/ --limit webservers
 ```
 
 ## Best Practices

@@ -14,12 +14,11 @@ This document provides comprehensive information on testing the `drts.casc` Ansi
 - [CI/CD Testing](#cicd-testing)
 - [Test Directory Structure](#test-directory-structure)
 - [Writing Tests](#writing-tests)
-- [Ansible Version Testing](#ansible-version-testing)
 - [Troubleshooting](#troubleshooting)
 
 ## Prerequisites
 
-- **Python 3.14+**: Required for running tests
+- **Python 3.14**: Required for running tests (specified in .python-version)
 - **uv**: Fast Python package installer and resolver
 - **Podman**: Container runtime for Molecule tests
 - **Git**: Version control
@@ -133,22 +132,11 @@ Run Molecule scenarios via pytest integration:
 ```bash
 tox run -e molecule
 
-# Run specific molecule test
-tox run -e molecule -- tests/molecule/test_fedora_minimal.py
+# Run specific integration test
+tox run -e molecule -- tests/integration/test_integration.py
 ```
 
-### Ansible Version Matrix
-
-tox-ansible automatically generates test environments for different Ansible versions:
-
-```bash
-# List all generated environments
-tox list
-
-# Run tests against specific Ansible version
-tox run -e py314-ansible-core-2.20
-tox run -e py314-ansible-core-2.21
-```
+**Note**: The molecule environment runs `tests/integration/` which uses pytest-ansible's automatic discovery of Molecule scenarios in `extensions/molecule/`.
 
 ## Molecule Testing
 
@@ -163,14 +151,14 @@ Molecule scenarios are located in `extensions/molecule/` following the official 
 ### Running Molecule Tests
 
 ```bash
-# Via pytest (recommended)
-uv run pytest tests/molecule/ -v
+# Via pytest (recommended) - uses pytest-ansible's auto-discovery
+uv run pytest tests/integration/ -v
 
 # Via tox
 tox run -e molecule
 
-# Run specific scenario
-uv run pytest tests/molecule/test_fedora_minimal.py -v
+# Run specific integration test
+uv run pytest tests/integration/test_integration.py -v
 
 # Direct molecule command (from extensions/molecule/)
 cd extensions/molecule
@@ -181,14 +169,25 @@ molecule test -s fedora_minimal
 
 ```
 extensions/molecule/          # Molecule scenarios (official location)
+├── config.yml               # Shared molecule configuration
 ├── fedora_minimal/
 │   ├── converge.yml         # Playbook to test
 │   ├── molecule.yml         # Scenario configuration
 │   └── verify.yml           # Verification tasks
-tests/molecule/              # Pytest wrappers
-├── test_fedora_minimal.py   # Pytest integration
-└── conftest.py              # Shared fixtures
+├── integration_hello_world/
+│   └── molecule.yml
+└── utils/
+    ├── playbooks/
+    └── vars/
+tests/integration/           # Integration tests using pytest-ansible
+├── __init__.py
+├── test_integration.py      # Uses molecule_scenario fixture
+└── targets/                 # Additional integration targets
+    └── hello_world/
+        └── tasks/main.yml
 ```
+
+**How it works**: The `tests/integration/test_integration.py` file uses pytest-ansible's `molecule_scenario` fixture, which automatically discovers all scenarios in `extensions/molecule/` and runs them as parameterized tests.
 
 ## Coverage Reports
 
@@ -261,7 +260,6 @@ When you open a PR, GitHub Actions automatically:
 
 ```
 tests/
-├── conftest.py              # Shared pytest fixtures
 ├── .gitignore               # Ignore test outputs
 ├── output/                  # Test outputs (gitignored)
 │   ├── coverage/
@@ -273,17 +271,16 @@ tests/
 │   ├── __init__.py
 │   ├── test_basic.py
 │   └── .keep
-├── integration/             # Integration tests
-│   ├── __init__.py
-│   ├── test_integration.py
-│   └── targets/            # Integration test targets
-│       └── hello_world/
-└── molecule/                # Molecule pytest wrappers
+└── integration/             # Integration tests (Molecule via pytest-ansible)
     ├── __init__.py
-    ├── test_fedora_minimal.py
-    ├── test_integration_hello_world.py
-    └── test_utils.py
+    ├── test_integration.py  # Uses molecule_scenario fixture
+    └── targets/             # Additional integration test targets
+        └── hello_world/
+            └── tasks/
+                └── main.yml
 ```
+
+The actual Molecule scenarios are located in `extensions/molecule/` following Ansible's official collection structure.
 
 ## Writing Tests
 
@@ -326,75 +323,29 @@ Create integration tests in `tests/integration/targets/`:
 
 ### Molecule Tests
 
-Create pytest wrappers in `tests/molecule/`:
+Molecule scenarios are tested using pytest-ansible's `molecule_scenario` fixture in `tests/integration/test_integration.py`:
 
 ```python
-# tests/molecule/test_my_scenario.py
-import pytest
+# tests/integration/test_integration.py
+from pytest_ansible.molecule import MoleculeScenario
 
-@pytest.mark.molecule
-def test_my_scenario_converge(molecule_scenario_my_scenario):
-    """Test that my_scenario converges successfully."""
-    molecule_scenario_my_scenario.converge()
-
-@pytest.mark.molecule
-def test_my_scenario_verify(molecule_scenario_my_scenario):
-    """Test that my_scenario verification passes."""
-    molecule_scenario_my_scenario.verify()
+def test_integration(molecule_scenario: MoleculeScenario) -> None:
+    """Run molecule for each scenario.
+    
+    Args:
+        molecule_scenario: The molecule scenario object
+    """
+    proc = molecule_scenario.test()
+    assert proc.returncode == 0
 ```
 
-### Test Markers
+The `molecule_scenario` fixture automatically discovers all scenarios in `extensions/molecule/` and parameterizes the test. To add a new Molecule scenario:
 
-Use pytest markers to categorize tests:
+1. Create a new scenario directory in `extensions/molecule/my_new_scenario/`
+2. Add `molecule.yml`, `converge.yml`, and optionally `verify.yml`
+3. The test will automatically discover and run the new scenario
 
-```python
-@pytest.mark.molecule  # Molecule scenario test
-@pytest.mark.slow      # Slow-running test
-```
-
-Run specific markers:
-
-```bash
-# Run only molecule tests
-uv run pytest -m molecule
-
-# Skip slow tests
-uv run pytest -m "not slow"
-```
-
-## Ansible Version Testing
-
-The collection supports testing against multiple Ansible versions using tox-ansible.
-
-### Supported Versions
-
-- Ansible Core 2.20+
-- Python 3.14+
-
-### Testing Specific Versions
-
-```bash
-# List all Ansible version environments
-tox list | grep ansible
-
-# Test against specific version
-tox run -e py314-ansible-core-2.20
-
-# Test against all versions
-tox run -e py314-ansible-core-{2.20,2.21,2.22}
-```
-
-### Version Matrix Configuration
-
-The version matrix is configured in `tox.toml`:
-
-```toml
-[ansible]
-skip = [
-    "py3.10", "py3.11", "py3.12",  # Older Python versions
-    "2.18", "2.19",                  # Older Ansible versions
-]
-```
+**Note**: pytest-ansible handles the parameterization automatically - no need to create individual test files for each scenario.
 
 ## Troubleshooting
 

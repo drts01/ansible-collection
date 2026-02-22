@@ -1,5 +1,8 @@
 # Drts CASC Collection
 
+[![Tests](https://github.com/drts01/ansible-collection/actions/workflows/tests.yml/badge.svg)](https://github.com/drts01/ansible-collection/actions/workflows/tests.yml)
+[![Molecule Tests](https://github.com/drts01/ansible-collection/actions/workflows/molecule.yml/badge.svg)](https://github.com/drts01/ansible-collection/actions/workflows/molecule.yml)
+
 This repository contains the `drts.casc` Ansible Collection.
 
 <!--start requires_ansible-->
@@ -49,6 +52,85 @@ ansible-galaxy collection install drts.casc:==X.Y.Z
 See
 [Ansible Using Collections](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html)
 for more details.
+
+## Testing
+
+This collection includes comprehensive test coverage using pytest, tox, and Molecule.
+
+### Quick Start
+
+```bash
+# Install dependencies
+uv sync --group dev
+
+# Run all tests with coverage
+uv run pytest tests/ --cov
+
+# Run tests via tox
+tox run -e coverage
+
+# Run linting
+tox run -e lint
+```
+
+### Detailed Testing Guide
+
+For comprehensive testing documentation, including:
+- Setting up your development environment
+- Running different types of tests (unit, integration, molecule)
+- Understanding coverage reports
+- CI/CD testing workflows
+- Troubleshooting common issues
+
+See [TESTING.md](TESTING.md) for complete details.
+
+## Development
+
+### Setting Up Development Environment
+
+This collection uses [uv](https://docs.astral.sh/uv/) for fast, reliable Python dependency management.
+
+```bash
+# Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Clone the repository
+git clone https://github.com/drts01/ansible-collection.git
+cd ansible-collection
+
+# Install all development dependencies
+uv sync --group dev --group build --group lint
+
+# Verify installation
+uv run pytest --version
+uv run ansible --version
+```
+
+### Development Workflow
+
+```bash
+# Run tests during development
+uv run pytest tests/ --cov
+
+# Run linting before committing
+tox run -e lint
+
+# Run full test matrix
+tox run
+
+# Run specific tox environment
+tox run -e coverage
+tox run -e ansible-2.20-py3.14
+```
+
+### Contributing
+
+When contributing to this collection:
+1. Install development dependencies with `uv sync --group dev`
+2. Run tests locally before submitting PRs
+3. Ensure linting passes with `tox run -e lint`
+4. Update tests for any new features or bug fixes
+5. Follow the [Ansible Collection Development Guidelines](https://docs.ansible.com/ansible/devel/dev_guide/developing_collections.html)
 
 ## Release notes
 

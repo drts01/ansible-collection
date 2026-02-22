@@ -1,20 +1,22 @@
 ---
 major_changes:
-  - "Modernized test infrastructure with pytest, tox, and comprehensive coverage reporting"
-  - "Added uv for fast dependency management with dependency groups for dev, build, and lint"
-  - "Migrated to pyproject.toml-based dependency management following modern Python practices"
-  - "Implemented automated coverage reporting in GitHub Actions with PR comments and artifacts"
-  - "Added support for Ansible 2.20+ with Python 3.14+ testing matrix via tox-ansible"
+  - Modernized test infrastructure with pytest, tox, and comprehensive coverage reporting
+  - Added uv for fast dependency management with dependency groups for dev, build, and lint
+  - Migrated to pyproject.toml-based dependency management following modern Python practices
+  - Implemented automated coverage reporting in GitHub Actions with PR comments and artifacts
+  - Added support for Ansible 2.20+ with Python 3.14+ testing matrix via tox-ansible
 
 minor_changes:
-  - "Added TESTING.md with comprehensive testing documentation and developer guidelines"
-  - "Enhanced README.md with development setup instructions and CI/CD badges"
-  - "Configured pytest with coverage, JUnit XML, and HTML report generation"
-  - "Added tox environments for coverage, linting, and Ansible version matrix testing"
-  - "Integrated dorny/test-reporter for test result visualization in GitHub Actions"
-  - "Added py-cov-action for automated coverage comments on pull requests"
+  - Added TESTING.md with comprehensive testing documentation and developer guidelines
+  - Enhanced README.md with development setup instructions and CI/CD badges
+  - Configured pytest with coverage, JUnit XML, and HTML report generation
+  - Added tox environments for coverage, linting, and Ansible version matrix testing
+  - Integrated dorny/test-reporter for test result visualization in GitHub Actions
+  - Added py-cov-action for automated coverage comments on pull requests
 
 doc_changes:
-  - "Created comprehensive TESTING.md documentation covering unit tests, integration tests, and Molecule scenarios"
-  - "Updated README.md with quick start testing commands and development workflow"
-  - "Added troubleshooting guide and test directory structure documentation"
+  - >-
+    Created comprehensive TESTING.md documentation covering unit tests, integration tests, and
+    Molecule scenarios
+  - Updated README.md with quick start testing commands and development workflow
+  - Added troubleshooting guide and test directory structure documentation

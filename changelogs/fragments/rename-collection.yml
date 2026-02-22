@@ -1,3 +1,6 @@
 ---
 breaking_changes:
-  - "Collection name changed from ``drts.linux`` to ``drts.casc``. Users must update their ``requirements.yml`` files and playbook references to use the new collection name ``drts.casc`` instead of ``drts.linux``."
+  - >-
+    Collection name changed from ``drts.linux`` to ``drts.casc``. Users must update their
+    ``requirements.yml`` files and playbook references to use the new collection name ``drts.casc``
+    instead of ``drts.linux``.

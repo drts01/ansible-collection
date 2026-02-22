@@ -73,7 +73,6 @@ filterwarnings = [
 testpaths = [
   "tests/unit",
   "tests/integration",
-  "tests/molecule",
 ]
 markers = [
   "molecule: mark test as a Molecule scenario execution",
@@ -85,6 +84,8 @@ source = ["ansible_collections.drts.casc"]
 omit = [
   "*/tests/*",
   "*/test_*",
+  "tests/integration/*",
+  "tests/conftest.py",
 ]
 
 [tool.coverage.report]

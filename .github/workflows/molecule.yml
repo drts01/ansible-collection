@@ -40,7 +40,7 @@ jobs:
         run: uv tools install tox --with tox-ansible --with tox-uv
       - name: Install Podman
         uses: redhat-actions/podman-install@main
-          
+
       - name: Run Molecule tests via tox
         run: |
           tox run -e molecule

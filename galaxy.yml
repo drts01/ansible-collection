@@ -14,7 +14,7 @@ description: >-
   Ansible collection for Fedora system configuration and hardening with CIS benchmark-aligned security controls
 license_file: LICENSE
 
-tags: [linux, Fedora]
+tags: [linux, fedora]
 dependencies:
   'ansible.utils': '*'  # note: "*" selects the latest version available
   'ansible.posix': '*'

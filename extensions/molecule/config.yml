@@ -1,17 +1,20 @@
 ---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+
 ansible:
-  executor:
-    args:
-      ansible_playbook:
-        - --inventory=${MOLECULE_SCENARIO_DIRECTORY}/../inventory.yml
+  env:
+    ANSIBLE_CONFIG: ansible.cfg
 
 scenario:
   test_sequence:
-    - prepare
+    - dependency
+    - destroy
+    - syntax
+    - create
     - converge
-    - verify
     - idempotence
+    - side_effect
     - verify
-    - cleanup
-
-shared_state: true

@@ -28,6 +28,7 @@ wheels/
 *.retry
 .ansible
 .cache
+ansible-creator.log
 
 # Testing
 .tox/

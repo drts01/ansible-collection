@@ -1,3 +1,62 @@
+[env_run_base]
+runner = "uv-venv-lock-runner"
+base_python = [ "python3.14" ]
+skip_install = "true"
+
+[env.coverage]
+# Coverage test environment - runs pytest with coverage reporting
+# Generates multiple coverage report formats:
+# - HTML: tests/output/coverage/html/index.html
+# - XML: tests/output/coverage/coverage.xml
+# - Terminal: immediate feedback with missing lines
+# - JUnit: tests/output/junit/results.xml
+description = "Run tests with coverage reporting"
+commands = [
+  [ "pytest", "tests/", "--cov", "--cov-report=html", "--cov-report=xml", "--cov-report=term-missing" ],
+]
+
+[env.lint]
+# Linting environment - runs ansible-lint
+# Validates:
+# - Ansible best practices and style
+# Note: yamllint runs separately via pre-commit hooks
+description = "Run linting and validation checks"
+commands = [
+  [ "uv", "run", "ansible-lint", "--profile=production", "--strict", "--project-dir={tox_root}", "-v" ],
+]
+groups = [ "lint" ]
+
+[env.molecule]
+# Molecule test environment - runs integration tests via pytest-ansible
+# This provides:
+# - Automatic discovery of Molecule scenarios in extensions/molecule/
+# - Better test discovery and reporting through pytest
+# - Integration with pytest fixtures and plugins
+# - Faster feedback than direct molecule commands
+description = "Run Molecule scenarios via pytest-ansible integration tests"
+commands = [
+  [
+    "pytest",
+    "tests/integration/",
+    { replace = "posargs", default = [ "-v" ], extend = true },
+  ],
+]
+
+[env.sanity]
+# Sanity test environment - runs ansible-test sanity checks locally
+# Validates:
+# - Python import errors
+# - YAML/Jinja2 syntax
+# - Ansible best practices
+# - Documentation format
+# - Metadata validation (galaxy.yml, runtime.yml)
+# Note: Uses --local flag for faster execution without Docker
+# CI uses containerized sanity for consistency
+description = "Run ansible-test sanity checks locally"
+commands = [
+  [ "ansible-test", "sanity", "--local", "-v" ],
+]
+
 # Tox-Ansible Configuration (TOML Format)
 # Tox v4 reference: https://tox.wiki/en/4.41.0/reference/config.html
 # tox-ansible reference: https://docs.ansible.com/projects/tox-ansible/configuration/
@@ -17,12 +76,12 @@
 # Python and Ansible versions to skip in the test matrix
 # Following pyproject.toml constraint: requires-python = ">=3.14"
 skip = [
-    "py3.10",
-    "py3.11",
-    "py3.12",
-    "2.18",
-    "2.19",
-    "devel",
+  "py3.10",
+  "py3.11",
+  "py3.12",
+  "2.18",
+  "2.19",
+  "devel",
 ]
 
 [tox]
@@ -31,62 +90,16 @@ skip = [
 # - tox-ansible>=26.1: Ansible version matrix generation
 # - tox-uv>=1.29: Fast dependency resolution (~10x faster than pip)
 requires = [
-    "tox>=4.40",
-    "tox-ansible>=26.1",
-    "tox-uv>=1.29",
+  "tox>=4.40",
+  "tox-ansible>=26.1",
+  "tox-uv>=1.29",
 ]
-
-[env_run_base]
-runner = "uv-venv-lock-runner"
-skip_install = "true"
-base_python = ["python3.14"]
-
-[env.coverage]
-# Coverage test environment - runs pytest with coverage reporting
-# Generates multiple coverage report formats:
-# - HTML: tests/output/coverage/html/index.html
-# - XML: tests/output/coverage/coverage.xml
-# - Terminal: immediate feedback with missing lines
-# - JUnit: tests/output/junit/results.xml
-description = "Run tests with coverage reporting"
-commands = [
-    ["pytest", "tests/", "--cov", "--cov-report=html", "--cov-report=xml", "--cov-report=term-missing"],
-]
-
-[env.lint]
-# Linting environment - runs ansible-lint
-# Validates:
-# - Ansible best practices and style
-# Note: yamllint runs separately via pre-commit hooks
-description = "Run linting and validation checks"
-groups = ["lint"]
-commands = [
-    ["uv", "run", "ansible-lint", "--profile=production", "--strict", "--project-dir={tox_root}", "-v"],
-]
-
-[env.sanity]
-# Sanity test environment - runs ansible-test sanity checks locally
-# Validates:
-# - Python import errors
-# - YAML/Jinja2 syntax
-# - Ansible best practices
-# - Documentation format
-# - Metadata validation (galaxy.yml, runtime.yml)
-# Note: Uses --local flag for faster execution without Docker
-# CI uses containerized sanity for consistency
-description = "Run ansible-test sanity checks locally"
-commands = [
-    ["ansible-test", "sanity", "--local", "-v"],
-]
-
-[env.molecule]
-# Molecule test environment - runs integration tests via pytest-ansible
-# This provides:
-# - Automatic discovery of Molecule scenarios in extensions/molecule/
-# - Better test discovery and reporting through pytest
-# - Integration with pytest fixtures and plugins
-# - Faster feedback than direct molecule commands
-description = "Run Molecule scenarios via pytest-ansible integration tests"
-commands = [
-    ["pytest", "tests/integration/", { replace = "posargs", default = ["-v"], extend = true },],
+pass_env = [
+  "ANSIBLE_*",
+  "CI",
+  "MOLECULE_*",
+  "PODMAN_*",
+  "PYTEST_*",
+  "TERM",
+  "XDG_*",
 ]

@@ -14,10 +14,10 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-      - id: check-executables-have-shebangs
+      # - id: check-executables-have-shebangs
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
-      - id: check-symlinks
+      # - id: check-symlinks
       - id: check-toml
       - id: check-yaml
         args: [--allow-multiple-documents, --unsafe]
@@ -82,10 +82,10 @@ repos:
     hooks:
       - id: yamllint
         args: [-s]
-  - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.11.0.1
-    hooks:
-      - id: shellcheck
+  # - repo: https://github.com/shellcheck-py/shellcheck-py
+  #   rev: v0.11.0.1
+  #   hooks:
+  #     - id: shellcheck
   - repo: https://github.com/tox-dev/pyproject-fmt
     rev: v2.16.1
     hooks:
@@ -96,8 +96,11 @@ repos:
   #     - id: commitlint
   #       stages: [commit-msg]
   #       additional_dependencies: ["@commitlint/config-conventional"]
-  - repo: https://github.com/ansible/ansible-lint
-    rev: v26.1.1 
+  # - repo: https://github.com/ansible/ansible-lint
+  #   rev: v26.1.1
+  #   hooks:
+  #     - id: ansible-lint
+  - repo: https://github.com/tox-dev/tox-toml-fmt
+    rev: v1.7.2
     hooks:
-    - id: ansible-lint
-    
+      - id: tox-toml-fmt

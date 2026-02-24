@@ -14,29 +14,21 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  "ansible-core>=2.20",
+  "ansible-core~=2.20",
 ]
 
 [dependency-groups]
 dev = [
-  "pytest>=8.0",
-  "pytest-cov>=6.0",
-  "pytest-xdist>=3.0",
-  "pytest-ansible>=26.1",
-  "coverage[toml]>=7.0",
-  "molecule>=7.0",
   "molecule-plugins[podman]>=25.8",
+  "pytest-ansible>=26.1",
+  "pytest-cov~=7.0",
 ]
-
 build = [
-  "tox>=4.40",
   "tox-ansible>=26.1",
-  "tox-uv>=1.29",
+  "tox-uv-bare~=1.32",
 ]
-
 lint = [
   "ansible-lint>=26.1",
-  "yamllint>=1.35",
 ]
 
 [tool.uv]
@@ -55,44 +47,44 @@ profile = "black"
 [tool.flake8]
 max-line-length = 120
 
-[tool.pytest.ini_options]
-addopts = [
+[tool.pytest]
+ini_options.addopts = [
   "-vvv",
-  "-n", "2",
-  "--log-level", "WARNING",
-  "--color", "yes",
+  "-n",
+  "2",
+  "--log-level",
+  "WARNING",
+  "--color",
+  "yes",
   "--cov=ansible_collections.drts.casc",
   "--cov-report=html:tests/output/coverage/html",
   "--cov-report=xml:tests/output/coverage/coverage.xml",
   "--cov-report=term-missing",
   "--junit-xml=tests/output/junit/results.xml",
 ]
-filterwarnings = [
+ini_options.filterwarnings = [
   "ignore:AnsibleCollectionFinder has already been configured",
 ]
-testpaths = [
-  "tests/unit",
-  "tests/integration",
+ini_options.testpaths = [
+  "tests",
 ]
-markers = [
+ini_options.markers = [
   "molecule: mark test as a Molecule scenario execution",
   "slow: mark test as slow running",
 ]
 
-[tool.coverage.run]
-source = ["ansible_collections.drts.casc"]
-omit = [
-  "*/tests/*",
+[tool.coverage]
+run.omit = [
   "*/test_*",
-  "tests/integration/*",
+  "*/tests/*",
   "tests/conftest.py",
+  "tests/integration/*",
 ]
-
-[tool.coverage.report]
-exclude_lines = [
-  "pragma: no cover",
+run.source = [ "ansible_collections.drts.casc" ]
+report.exclude_lines = [
   "def __repr__",
+  "if __name__ == .__main__.:",
+  "pragma: no cover",
   "raise AssertionError",
   "raise NotImplementedError",
-  "if __name__ == .__main__.:",
 ]

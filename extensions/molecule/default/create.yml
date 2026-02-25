@@ -1,0 +1,113 @@
+---
+# https://docs.ansible.com/projects/molecule/examples/podman/#lifecycle-playbooks
+- name: Create container instances
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Create containers from inventory
+      containers.podman.podman_container:
+        hostname: '{{ item }}'
+        name: '{{ item }}'
+        image: "{{ hostvars[item]['container_image'] }}"
+        command: "{{ hostvars[item]['container_command'] | default('sleep 1d') }}"
+        # privileged: "{{ hostvars[item]['container_privileged'] | default(false) }}"
+        # volumes: "{{ hostvars[item]['container_volumes'] | default(omit) }}"
+        # capabilities: "{{ hostvars[item]['container_capabilities'] | default(omit) }}"
+        # systemd: "{{ hostvars[item]['container_systemd'] | default(false) }}"
+        # log_driver: "{{ hostvars[item]['container_log_driver'] | default('json-file') }}"
+        recreate: "{{ hostvars[item]['container_recreate'] | default(true) }}"
+        state: started
+      register: result
+      loop: "{{ groups['molecule'] }}"
+
+    - name: Verify containers are running
+      ansible.builtin.include_tasks:
+        file: tasks/create-fail.yml
+      when: >
+        item.container.State.ExitCode != 0 or
+        not item.container.State.Running
+      loop: '{{ result.results }}'
+      loop_control:
+        label: '{{ item.container.Name }}'
+
+# - name: Create container instances
+#   hosts: localhost
+#   gather_facts: false
+#   tasks:
+#     - name: Create container
+#       containers.podman.podman_container:
+#         # name: fedora43-molecule-test
+#         name: "{{ item }}"
+#         image: "{{ hostvars[item]['container_image'] }}"
+#         state: started
+#         # privileged: true
+#         command: /usr/bin/sleep infinity
+#         # cgroupns: host
+#         # volumes:
+#         #   - /sys/fs/cgroup:/sys/fs/cgroup:ro
+#         # capabilities:
+#         #   - SYS_ADMIN
+#         # recreate: "{{ hostvars[item]['container_recreate'] | default(false) }}"
+#         recreate: true
+#       register: container_result
+#       loop: "{{ groups['molecule'] }}"
+
+    # - name: Install Python3 and systemd in container
+    #   containers.podman.podman_container_exec:
+    #     # name: fedora43-molecule-test
+    #     name: "{{ item }}"
+    #     command: /usr/bin/bash -c "dnf install -y python3" # systemd"
+    #   register: packages_install
+    #   changed_when: "'Installing' in packages_install.stdout"
+    #   failed_when: false
+    #   loop: "{{ groups['molecule'] }}"
+
+    # - name: Create containers from inventory
+    #   containers.podman.podman_container:
+    #     # hostname: "{{ item }}"
+    #     name: "{{ item }}"
+    #     image: "{{ hostvars[item]['container_image'] }}"
+    #     command: "{{ hostvars[item]['container_command'] | default('sleep 1d') }}"
+    #     # privileged: "{{ hostvars[item]['container_privileged'] | default(false) }}"
+    #     # volumes: "{{ hostvars[item]['container_volumes'] | default(omit) }}"
+    #     # capabilities: "{{ hostvars[item]['container_capabilities'] | default(omit) }}"
+    #     # systemd: "{{ hostvars[item]['container_systemd'] | default(false) }}"
+    #     # log_driver: "{{ hostvars[item]['container_log_driver'] | default('json-file') }}"
+    #     # tty: "{{ hostvars[item]['container_tty'] | default(true) }}"
+    #     privileged: true
+    #     cgroupns: host
+    #     volumes:
+    #       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    #     capabilities:
+    #       - SYS_ADMIN
+    #     state: started
+    #   register: result
+    #   loop: "{{ groups['molecule'] }}"
+
+    # - name: Verify containers are running
+    #   ansible.builtin.include_tasks:
+    #     file: tasks/create-fail.yml
+    #   when: >
+    #     item.container.State.ExitCode != 0 or
+    #     not item.container.State.Running
+    #   loop: "{{ result.results }}"
+    #   loop_control:
+    #     label: "{{ item.container.Name }}"
+
+    - name: Install packages for Ansible
+      containers.podman.podman_container_exec:
+        name: '{{ item }}'
+        command: sh -c "
+          dnf makecache &&
+          dnf --assumeyes --setopt=install_weak_deps=False
+            install /usr/bin/python3 /usr/bin/python3-config /usr/bin/dnf-3 sudo bash iproute &&
+          dnf clean all"
+      register: packages_install
+      changed_when: "'Installing' in packages_install.stdout"
+      loop: "{{ groups['molecule'] }}"
+
+    - name: Verify containers is functional
+      ansible.builtin.wait_for_connection:
+        timeout: 30
+      delegate_to: '{{ item }}'
+      loop: "{{ groups['molecule'] }}"

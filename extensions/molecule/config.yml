@@ -5,8 +5,23 @@ dependency:
     requirements-file: requirements.yml
 
 ansible:
+  executor:
+    backend: ansible-playbook
+    args:
+      ansible_playbook:
+        - --inventory=${MOLECULE_SCENARIO_DIRECTORY}/../default/inventory/
   env:
-    ANSIBLE_CONFIG: ansible.cfg
+    ANSIBLE_CONFIG: ${MOLECULE_PROJECT_DIRECTORY}/ansible.cfg
+  cfg:
+    defaults:
+      deprecation_warnings: false
+  playbooks:
+    prepare: ${MOLECULE_SCENARIO_DIRECTORY}/../default/noop.yml
+    create: ${MOLECULE_SCENARIO_DIRECTORY}/../default/create.yml
+    cleanup: ${MOLECULE_SCENARIO_DIRECTORY}/../default/noop.yml
+    destroy: ${MOLECULE_SCENARIO_DIRECTORY}/../default/destroy.yml
+    converge: converge.yml
+    verify: verify.yml
 
 scenario:
   test_sequence:

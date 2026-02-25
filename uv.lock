@@ -130,7 +130,6 @@ dev = [
 ]
 lint = [
     { name = "ansible-lint" },
-    { name = "yamllint" },
 ]
 
 [package.metadata]
@@ -146,10 +145,7 @@ dev = [
     { name = "pytest-ansible", specifier = ">=26.1" },
     { name = "pytest-cov", specifier = "~=7.0" },
 ]
-lint = [
-    { name = "ansible-lint", specifier = ">=26.1" },
-    { name = "yamllint", specifier = "~=1.35" },
-]
+lint = [{ name = "ansible-lint", specifier = ">=26.1" }]
 
 [[package]]
 name = "cffi"
